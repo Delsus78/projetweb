@@ -26,6 +26,9 @@ app.use('/api/projet', projetRoutes);
 const ticketRoutes = require("./app/routes/ticket.routes.js");
 app.use('/api/ticket', ticketRoutes);
 
+const utilsRoutes = require("./app/routes/utils.routes.js");
+app.use('/api/utils', utilsRoutes);
+
 const PORT = process.env.PORT || 9090;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);

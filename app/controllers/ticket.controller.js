@@ -12,7 +12,9 @@ exports.create = (req, res) => {
     const ticket = new Ticket({
         id: req.body.id,
         nom: req.body.nom,
-        date: req.body.date,
+        dateStart: req.body.dateStart,
+        dateAssign: req.body.dateAssign,
+        dateEnd: req.body.dateEnd,
         etatAvancement: req.body.etatAvancement,
         importance: req.body.importance,
         description: req.body.description,
@@ -101,6 +103,6 @@ exports.delete = (req, res) => {
                     message: "Le ticket identifié par l id " + req.params.id + " n'a pas pu être supprimé"
                 });
             }
-        } else res.send({ message: `Ticket                                                                                                      qqqqqq correctement supprimé` });
+        } else res.send({ message: `Ticket `+  +` correctement supprimé` });
     });
 };

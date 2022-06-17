@@ -10,7 +10,9 @@ const Ticket = function(ticket) {
     this.idProjet = ticket.idProjet;
     this.idClient = ticket.idClient;
     this.nom = ticket.nom;
-    this.date = ticket.date;
+    this.dateStart = ticket.dateStart;
+    this.dateAssign = ticket.dateAssign;
+    this.dateEnd = ticket.dateEnd;
 };
 
 Ticket.create = (newTicket, result) => {
@@ -68,13 +70,15 @@ Ticket.getAll = (contient, result) => {
 
 Ticket.updateById = (ticket, result) => {
     sql.query(
-        "UPDATE ticket SET etatAvancement = ?, importance = ?, description = ?, nom = ?, date = ?, idProjet = ?, idRapporteur = ?, idDev = ?, idClient = ? WHERE id = ?",
+        "UPDATE ticket SET etatAvancement = ?, importance = ?, description = ?, nom = ?, idProjet = ?, idRapporteur = ?, idDev = ?, idClient = ?, dateStart = ?, dateAssign = ?, dateEnd = ? WHERE id = ?",
         [
             ticket.etatAvancement,
             ticket.importance,
             ticket.description,
             ticket.nom,
-            ticket.date,
+            ticket.dateStart,
+            ticket.dateAssign,
+            ticket.dateEnd,
             ticket.idProjet,
             ticket.idRapporteur,
             ticket.idDev,

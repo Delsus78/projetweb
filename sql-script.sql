@@ -55,12 +55,14 @@ CREATE TABLE tickettac.ticket (
   idDev INT DEFAULT NULL,
   idRapporteur INT NOT NULL,
   nom VARCHAR(255) DEFAULT NULL,
-  date DATETIME DEFAULT NULL,
+  dateStart DATETIME DEFAULT NULL,
   etatAvancement ENUM('A_FAIRE','EN_COURS','FINI') DEFAULT NULL,
   importance ENUM('HIGH','MEDIUM','LOW') DEFAULT NULL,
   description TEXT DEFAULT NULL,
   idProjet INT NOT NULL,
   idClient INT NOT NULL,
+  dateAssign DATETIME DEFAULT NULL,
+  dateEnd DATETIME DEFAULT NULL,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB,
@@ -69,17 +71,17 @@ CHARACTER SET utf8mb4,
 COLLATE utf8mb4_0900_ai_ci;
 
 ALTER TABLE tickettac.ticket
-  ADD CONSTRAINT FK_ticket_idClient FOREIGN KEY (idClient)
-    REFERENCES tickettac.client(id);
+    ADD CONSTRAINT FK_ticket_idClient FOREIGN KEY (idClient)
+        REFERENCES tickettac.client(id);
 
 ALTER TABLE tickettac.ticket
-  ADD CONSTRAINT FK_ticket_idDev FOREIGN KEY (idDev)
-    REFERENCES tickettac.developpeur(id);
+    ADD CONSTRAINT FK_ticket_idDev FOREIGN KEY (idDev)
+        REFERENCES tickettac.developpeur(id);
 
 ALTER TABLE tickettac.ticket
-  ADD CONSTRAINT FK_ticket_idProjet FOREIGN KEY (idProjet)
-    REFERENCES tickettac.projet(id);
+    ADD CONSTRAINT FK_ticket_idProjet FOREIGN KEY (idProjet)
+        REFERENCES tickettac.projet(id);
 
 ALTER TABLE tickettac.ticket
-  ADD CONSTRAINT FK_ticket_idRapporteur FOREIGN KEY (idRapporteur)
-    REFERENCES tickettac.rapporteur(id);
+    ADD CONSTRAINT FK_ticket_idRapporteur FOREIGN KEY (idRapporteur)
+        REFERENCES tickettac.rapporteur(id);
