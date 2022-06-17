@@ -3,10 +3,13 @@ const sql = require("./db.js");
 let Utils = function() {};
 
 Utils.findTickets = (info, result) => {
+    console.log(`SELECT * FROM ticket WHERE etatAvancement = '${info.etatAvancement}' ` +
+        `AND ${info.typeDate} >= '${info.dateStart}' `+
+        `AND ${info.typeDate} < '${info.dateEnd}'`);
     sql.query(
         `SELECT * FROM ticket WHERE etatAvancement = '${info.etatAvancement}' ` +
-            `AND dateStart >= '${info.dateStart}' `+
-            `AND dateStart < '${info.dateEnd}'`,
+            `AND ${info.typeDate} >= '${info.dateStart}' `+
+            `AND ${info.typeDate} < '${info.dateEnd}'`,
         (err, res) => {
         if (err) {
             console.log("error : ", err);

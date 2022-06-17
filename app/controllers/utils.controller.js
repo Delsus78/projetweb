@@ -10,7 +10,8 @@ exports.findTickets = (req, res) => {
     const info = {
         dateStart: req.body.dateStart,
         dateEnd: req.body.dateEnd,
-        etatAvancement: req.body.etatAvancement
+        etatAvancement: req.body.etatAvancement,
+        typeDate: req.body.typeDate
     }
 
     Utils.findTickets(info, (err, data) => {
