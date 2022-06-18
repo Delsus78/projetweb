@@ -1,4 +1,5 @@
 const Utils = require("../models/utils.model.js");
+const Ticket = require("../models/ticket.model");
 
 exports.findTickets = (req, res) => {
     if (!req.body) {
@@ -15,6 +16,17 @@ exports.findTickets = (req, res) => {
     }
 
     Utils.findTickets(info, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Une erreur est apparue lors de la recherche de tous les Tickets"
+            });
+        } else res.send(data);
+    });
+}
+
+exports.getAllUsers = (req, res) => {
+    const contient = req.query.contient;
+    Utils.getAllUsers(contient, (err, data) => {
         if (err) {
             res.status(500).send({
                 message: err.message || "Une erreur est apparue lors de la recherche de tous les Tickets"

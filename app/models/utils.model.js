@@ -21,4 +21,41 @@ Utils.findTickets = (info, result) => {
     });
 }
 
+Utils.getAllUsers = (contient, result) => {
+    let resFinal = [];
+    let query = "SELECT * FROM developpeur";
+    sql.query(query, (err, res1) => {
+        if (err) {
+            console.log("error : ", err);
+            result(null, err);
+            return;
+        }
+
+        // Ajout du champs type dans le résultat
+        res1.forEach(dev => {
+            dev.type = "DEV";
+            resFinal.push(dev);
+        });
+
+        console.log("Developpeurs : ", res1);
+        query = "SELECT * FROM rapporteur";
+        sql.query(query, (err, res2) => {
+            if (err) {
+                console.log("error : ", err);
+                result(null, err);
+                return;
+            }
+
+            // Ajout du champs type dans le résultat
+            res2.forEach(rap => {
+                rap.type = "RAP";
+                resFinal.push(rap);
+            });
+
+            result(null, resFinal);
+        });
+
+    });
+};
+
 module.exports = Utils;
