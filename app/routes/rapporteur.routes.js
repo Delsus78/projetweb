@@ -10,6 +10,8 @@ router.get("/", rapporteur.findAll);
 //GET ALL tickets d'un rapporteur
 router.get("/AllTickets/:id", rapporteur.findAllTickets)
 
+router.get("/TicketsDonePerProject/:id", rapporteur.getTicketsDonePerProject);
+
 //GET un rapporteur en fonction de son id
 router.get("/:id", rapporteur.findOne);
 

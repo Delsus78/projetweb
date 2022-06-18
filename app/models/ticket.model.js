@@ -70,7 +70,7 @@ Ticket.getAll = (contient, result) => {
 
 Ticket.updateById = (ticket, result) => {
     sql.query(
-        "UPDATE ticket SET etatAvancement = ?, importance = ?, description = ?, nom = ?, idProjet = ?, idRapporteur = ?, idDev = ?, idClient = ?, dateStart = ?, dateAssign = ?, dateEnd = ? WHERE id = ?",
+        "UPDATE ticket SET etatAvancement = ?, importance = ?, description = ?, nom = ?, dateStart = ?, dateAssign = ?, dateEnd = ?, idProjet = ?, idRapporteur = ?, idDev = ?, idClient = ? WHERE id = ?",
         [
             ticket.etatAvancement,
             ticket.importance,

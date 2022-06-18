@@ -8,7 +8,9 @@ router.post("/", developpeur.create);
 router.get("/", developpeur.findAll);
 
 //GET ALL tickets d'un developpeur
-router.get("/AllTickets/:id", developpeur.findAllTickets)
+router.get("/AllTickets/:id", developpeur.findAllTickets);
+
+router.get("/TicketsDonePerProject/:id", developpeur.getTicketsDonePerProject);
 
 //GET un developpeur en fonction de son id
 router.get("/:id", developpeur.findOne);

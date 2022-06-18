@@ -66,6 +66,31 @@ Rapporteur.getAllTickets = (id, result) => {
     });
 }
 
+Rapporteur.getTicketsDonePerProject = (id, result) => {
+    sql.query(`SELECT ticket.id, projet.nom, projet.id as projetId FROM ticket JOIN projet ON ticket.idProjet = projet.id WHERE idRapporteur = ${id}`, (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(null, err);
+            return;
+        }
+
+        let projects = [];
+        for (let i = 0; i < res.length; i++) {
+            if (!projects.find(project => project.id === res[i].projetId)) {
+                projects.push(
+                    {
+                        id: res[i].projetId,
+                        nom: res[i].nom,
+                        nbTicketFini: 1
+                    }
+                );
+            } else projects.find(project => project.id === res[i].projetId).nbTicketFini++;
+        }
+        console.log("Tickets finis par le rapporteur : ", projects);
+        result(null, projects);
+    });
+}
+
 Rapporteur.updateById = (rapporteur, result) => {
     sql.query(
         "UPDATE rapporteur SET nom = ?, prenom = ?, email = ?, profilPicture = ? WHERE id = ?",

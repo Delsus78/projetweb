@@ -88,6 +88,31 @@ Developpeur.getAllTickets = (id, result) => {
     });
 }
 
+Developpeur.getTicketsDonePerProject = (id, result) => {
+    sql.query(`SELECT ticket.id, projet.nom, projet.id as projetId FROM ticket JOIN projet ON ticket.idProjet = projet.id WHERE idDev = ${id} AND ticket.etatAvancement = "FINI"`, (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(null, err);
+            return;
+        }
+
+        let projects = [];
+        for (let i = 0; i < res.length; i++) {
+            if (!projects.find(project => project.id === res[i].projetId)) {
+                projects.push(
+                    {
+                        id: res[i].projetId,
+                        nom: res[i].nom,
+                        nbTicketFini: 1
+                    }
+                );
+            } else projects.find(project => project.id === res[i].projetId).nbTicketFini++;
+        }
+        console.log("Tickets finis par le developpeur : ", projects);
+        result(null, projects);
+    });
+}
+
 Developpeur.remove = (id, result) => {
     sql.query("DELETE FROM developpeur WHERE id = ?", id, (err, res) => {
         if (err) {

@@ -52,6 +52,17 @@ exports.findAllTickets = (req, res) => {
     });
 };
 
+exports.getTicketsDonePerProject = (req, res) => {
+    const id = req.params.id;
+    Rapporteur.getTicketsDonePerProject(id, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Une erreur est apparue lors de la recherche de tous les tickets"
+            });
+        } else res.send(data);
+    });
+};
+
 //Touve un seul rapporteur à partir de son id
 exports.findOne = (req, res) => {
     Rapporteur.findById(req.params.id, (err, data) => {

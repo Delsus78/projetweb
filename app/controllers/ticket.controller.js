@@ -103,6 +103,6 @@ exports.delete = (req, res) => {
                     message: "Le ticket identifié par l id " + req.params.id + " n'a pas pu être supprimé"
                 });
             }
-        } else res.send({ message: `Ticket `+  +` correctement supprimé` });
+        } else res.send({ message: `Ticket `+ req.params.id +` correctement supprimé` });
     });
 };

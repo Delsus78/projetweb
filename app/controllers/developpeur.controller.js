@@ -44,8 +44,18 @@ exports.findAll = (req, res) => {
 //Trouve tous les tickets de la base de donnée d'un developpeur donné
 exports.findAllTickets = (req, res) => {
     const id = req.params.id;
-    console.log(id);
     Developpeur.getAllTickets(id, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Une erreur est apparue lors de la recherche de tous les tickets"
+            });
+        } else res.send(data);
+    });
+};
+
+exports.getTicketsDonePerProject = (req, res) => {
+    const id = req.params.id;
+    Developpeur.getTicketsDonePerProject(id, (err, data) => {
         if (err) {
             res.status(500).send({
                 message: err.message || "Une erreur est apparue lors de la recherche de tous les tickets"
