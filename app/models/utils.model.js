@@ -1,5 +1,9 @@
 const sql = require("./db.js");
 
+const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
 let Utils = function() {};
 
 Utils.findTickets = (info, result) => {
@@ -98,8 +102,10 @@ Utils.getNbTickets = (info, result) => {
     // objet json final
     let resFinal =
         {
-            "id": info.id
-        }
+            "id": 0
+        };
+
+    resFinal.id = info.id;
 
     // requête
     sql.query(query, [info.id, info.type],
@@ -116,6 +122,7 @@ Utils.getNbTickets = (info, result) => {
                 for (let i = info.nbMois; i > 0; i--) {
                     // final object to add to resFinal
                     let finalObj = {
+                        "month": "",
                         "HIGH": 0,
                         "MEDIUM": 0,
                         "LOW": 0
@@ -126,6 +133,8 @@ Utils.getNbTickets = (info, result) => {
 
                     let dateStartInfo = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                     let dateEndInfo = date.getFullYear() + "-" + (date.getMonth() + 2) + "-" + date.getDate();
+
+                    finalObj.month = monthNames[date.getMonth()];
 
                     res.filter(ticket => {
                         let dateTicket = new Date(ticket.date);
