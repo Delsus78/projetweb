@@ -45,7 +45,7 @@ Ticket.findById = (id, result) => {
 };
 
 Ticket.getAll = (contient, result) => {
-    let query = "SELECT * FROM ticket"
+    let query = "SELECT d.nom NomDev, d.prenom PrenomDev, c.nom NomClient, c.prenom PrenomClient, p.nom NomProjet, r.Prenom PrenomRapporteur, r.Nom NomRapporteur, ticket.id, idClient, idDev, idRapporteur, ticket.nom, dateStart, etatAvancement, importance, description, idProjet, dateAssign, dateEnd FROM ticket JOIN developpeur d ON d.id = ticket.idDev JOIN client c on c.id = ticket.idClient JOIN rapporteur r on ticket.idRapporteur = r.id JOIN projet p on p.id = ticket.idProjet"
     if (contient) {
         query += `WHERE etatAvancement LIKE '%${contient}%' ` +
         `OR importance LIKE '%${contient}%' ` +
@@ -63,8 +63,53 @@ Ticket.getAll = (contient, result) => {
             result(null, err);
             return;
         }
-        console.log("Tickets : ", res);
-        result(null, res);
+
+        let listFinal = [];
+
+        for (let i = 0; i <res.length; i++) {
+            let objetFinal = {
+                id: res[i].id,
+                nom: res[i].nom,
+                developpeur: null,
+                client: null,
+                rapporteur: null,
+                projet: null,
+                dateStart: res[i].dateStart,
+                etatAvancement: res[i].etatAvancement,
+                importance: res[i].importance,
+                description: res[i].description,
+                dateAssign: res[i].dateAssign,
+                dateEnd: res[i].dateEnd
+            };
+
+            objetFinal.developpeur = {
+                nom: res[i].NomDev,
+                prenom: res[i].PrenomDev,
+                id: res[i].idDev
+            };
+
+            objetFinal.client = {
+                nom: res[i].NomClient,
+                prenom: res[i].PrenomClient,
+                id: res[i].idClient
+            };
+
+            objetFinal.rapporteur = {
+                nom: res[i].NomRapporteur,
+                prenom: res[i].PrenomRapporteur,
+                id: res[i].idRapporteur
+            };
+
+            objetFinal.projet = {
+                nom: res[i].NomProjet,
+                id: res[i].idProjet
+            };
+
+            listFinal.push(objetFinal);
+        }
+
+        console.log("Tickets : ", listFinal);
+        result(null, listFinal);
     });
 };
 

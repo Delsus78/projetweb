@@ -29,6 +29,9 @@ app.use('/api/ticket', ticketRoutes);
 const utilsRoutes = require("./app/routes/utils.routes.js");
 app.use('/api/utils', utilsRoutes);
 
+const authentificationRoutes = require("./app/routes/authentification.routes.js");
+app.use('/api/authentification', authentificationRoutes);
+
 const PORT = process.env.PORT || 9090;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);

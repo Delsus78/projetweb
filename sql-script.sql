@@ -52,15 +52,15 @@ COLLATE utf8mb4_0900_ai_ci;
 
 CREATE TABLE tickettac.ticket (
   id INT NOT NULL AUTO_INCREMENT,
-  idDev INT DEFAULT NULL,
-  idRapporteur INT NOT NULL,
+  idDev INT,
+  idRapporteur INT,
   nom VARCHAR(255) DEFAULT NULL,
   dateStart DATETIME DEFAULT NULL,
   etatAvancement ENUM('A_FAIRE','EN_COURS','FINI') DEFAULT NULL,
   importance ENUM('HIGH','MEDIUM','LOW') DEFAULT NULL,
   description TEXT DEFAULT NULL,
-  idProjet INT NOT NULL,
-  idClient INT NOT NULL,
+  idProjet INT,
+  idClient INT,
   dateAssign DATETIME DEFAULT NULL,
   dateEnd DATETIME DEFAULT NULL,
   PRIMARY KEY (id)
@@ -72,16 +72,16 @@ COLLATE utf8mb4_0900_ai_ci;
 
 ALTER TABLE tickettac.ticket
     ADD CONSTRAINT FK_ticket_idClient FOREIGN KEY (idClient)
-        REFERENCES tickettac.client(id);
+        REFERENCES tickettac.client(id) ON DELETE SET NULL;
 
 ALTER TABLE tickettac.ticket
     ADD CONSTRAINT FK_ticket_idDev FOREIGN KEY (idDev)
-        REFERENCES tickettac.developpeur(id);
+        REFERENCES tickettac.developpeur(id) ON DELETE SET NULL ;
 
 ALTER TABLE tickettac.ticket
     ADD CONSTRAINT FK_ticket_idProjet FOREIGN KEY (idProjet)
-        REFERENCES tickettac.projet(id);
+        REFERENCES tickettac.projet(id) ON DELETE SET NULL ;
 
 ALTER TABLE tickettac.ticket
     ADD CONSTRAINT FK_ticket_idRapporteur FOREIGN KEY (idRapporteur)
-        REFERENCES tickettac.rapporteur(id);
+        REFERENCES tickettac.rapporteur(id) ON DELETE SET NULL ;

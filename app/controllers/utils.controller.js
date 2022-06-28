@@ -35,6 +35,17 @@ exports.getAllUsers = (req, res) => {
     });
 }
 
+exports.getAllEnterprises = (req, res) => {
+    const contient = req.query.contient;
+    Utils.getAllEnterprises(contient, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Une erreur est apparue lors de la recherche de toutes les entreprises "
+            });
+        } else res.send(data);
+    });
+}
+
 exports.getNbTickets = (req, res) => {
     const info = {
         type: req.params.type,

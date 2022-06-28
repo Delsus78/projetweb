@@ -43,7 +43,7 @@ Utils.getAllUsers = (contient, result) => {
         sql.query(query, (err, res2) => {
             if (err) {
                 console.log("error : ", err);
-                result(null, err);
+                result(err, null);
                 return;
             }
 
@@ -56,6 +56,26 @@ Utils.getAllUsers = (contient, result) => {
             result(null, resFinal);
         });
 
+    });
+};
+
+Utils.getAllEnterprises = (contient, result) => {
+    let resFinal = [];
+    let query = "SELECT DISTINCT(entreprise) FROM client ORDER BY entreprise";
+
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(err, null);
+            return;
+        }
+
+        res.forEach(entrep => {
+           resFinal.push(entrep.entreprise);
+        });
+
+        console.log("Enterprises : ", resFinal);
+        result(null, resFinal);
     });
 };
 
