@@ -45,7 +45,7 @@ Ticket.findById = (id, result) => {
 };
 
 Ticket.getAll = (contient, result) => {
-    let query = "SELECT d.nom NomDev, d.prenom PrenomDev, c.nom NomClient, c.prenom PrenomClient, p.nom NomProjet, r.Prenom PrenomRapporteur, r.Nom NomRapporteur, ticket.id, idClient, idDev, idRapporteur, ticket.nom, dateStart, etatAvancement, importance, description, idProjet, dateAssign, dateEnd FROM ticket JOIN developpeur d ON d.id = ticket.idDev JOIN client c on c.id = ticket.idClient JOIN rapporteur r on ticket.idRapporteur = r.id JOIN projet p on p.id = ticket.idProjet"
+    let query = "SELECT d.nom NomDev, d.prenom PrenomDev, c.nom NomClient, c.prenom PrenomClient, p.nom NomProjet, r.Prenom PrenomRapporteur, r.Nom NomRapporteur, ticket.id, idClient, idDev, idRapporteur, ticket.nom, dateStart, etatAvancement, importance, description, idProjet, dateAssign, dateEnd FROM ticket LEFT JOIN developpeur d ON d.id = ticket.idDev LEFT JOIN client c on c.id = ticket.idClient LEFT JOIN rapporteur r on ticket.idRapporteur = r.id LEFT JOIN projet p on p.id = ticket.idProjet"
     if (contient) {
         query += `WHERE etatAvancement LIKE '%${contient}%' ` +
         `OR importance LIKE '%${contient}%' ` +

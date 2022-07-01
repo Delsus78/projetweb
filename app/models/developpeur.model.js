@@ -5,6 +5,7 @@ const Developpeur = function(developpeur) {
     this.nom = developpeur.nom;
     this.prenom = developpeur.prenom;
     this.email = developpeur.email;
+    this.password = developpeur.password;
     this.noisettes = developpeur.noisettes;
     this.profilPicture = developpeur.profilPicture;
 };
@@ -89,7 +90,7 @@ Developpeur.getAllTickets = (id, result) => {
 }
 
 Developpeur.getTicketsDonePerProject = (id, result) => {
-    sql.query(`SELECT ticket.id, projet.nom, projet.id as projetId FROM ticket JOIN projet ON ticket.idProjet = projet.id WHERE idDev = ${id} AND ticket.etatAvancement = "FINI"`, (err, res) => {
+    sql.query(`SELECT ticket.id, projet.nom, projet.id as projetId FROM ticket JOIN projet ON ticket.idProjet = projet.id WHERE idDev = ${id} AND ticket.etatAvancement = "fini"`, (err, res) => {
         if (err) {
             console.log("error : ", err);
             result(null, err);

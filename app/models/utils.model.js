@@ -84,6 +84,7 @@ Utils.getNbTickets = (info, result) => {
     let typeDateQuery = "";
     switch (info.type) {
         case "A_FAIRE":
+        case "ALL":
             typeDateQuery = `, dateStart`;
             break;
         case "EN_COURS":
@@ -116,8 +117,11 @@ Utils.getNbTickets = (info, result) => {
     // query
     let query = `SELECT importance` + typeDateQuery +` AS date
                  FROM ticket
-                 WHERE ` + typeUserQuery +` = ?
-                   AND etatAvancement = ?`;
+                 WHERE ` + typeUserQuery +` = ?`;
+
+    if (info.type !== "ALL") {
+        query += ` AND etatAvancement = '${info.type}'`;
+    }
 
     // objet json final
     let resFinal =
@@ -139,17 +143,19 @@ Utils.getNbTickets = (info, result) => {
             // par mois
             if (info.nbMois !== 0) {
                 resFinal.months = [];
-                for (let i = info.nbMois; i > 0; i--) {
+                for (let i = info.nbMois - 1; i >= 0; i--) {
                     // final object to add to resFinal
                     let finalObj = {
                         "month": "",
-                        "HIGH": 0,
-                        "MEDIUM": 0,
-                        "LOW": 0
+                        "URGENT": 0,
+                        "IMPORTANT": 0,
+                        "MINEUR": 0
                     }
 
-                    let date = new Date();
+                    const date = new Date();
+                    date.setDate(1);
                     date.setMonth(date.getMonth() - i);
+
 
                     let dateStartInfo = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                     let dateEndInfo = date.getFullYear() + "-" + (date.getMonth() + 2) + "-" + date.getDate();
@@ -164,17 +170,16 @@ Utils.getNbTickets = (info, result) => {
                         if (dateTicket >= dateStart && dateTicket <= dateEnd) {
                             return true;
                         }
-                    })
-                        .forEach(ticket => finalObj[ticket.importance]++);
+                    }).forEach(ticket => finalObj[ticket.importance]++);
 
                     resFinal.months.push(finalObj);
                 }
             } else {
                 // final object to add to resFinal
                 let finalObj = {
-                    "HIGH": 0,
-                    "MEDIUM": 0,
-                    "LOW": 0
+                    "URGENT": 0,
+                    "IMPORTANT": 0,
+                    "MINEUR": 0
                 }
 
                 res.forEach(ticket => finalObj[ticket.importance]++);

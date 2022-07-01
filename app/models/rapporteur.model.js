@@ -5,6 +5,7 @@ const Rapporteur = function(rapporteur) {
     this.nom = rapporteur.nom;
     this.prenom = rapporteur.prenom;
     this.email = rapporteur.email;
+    this.password = rapporteur.password;
     this.profilPicture = rapporteur.profilPicture;
 };
 

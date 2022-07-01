@@ -13,6 +13,7 @@ exports.create = (req, res) => {
         id: req.body.id,
         nom: req.body.nom,
         prenom: req.body.prenom,
+        password: req.body.password,
         email: req.body.email,
         profilPicture: req.body.profilPicture
     });

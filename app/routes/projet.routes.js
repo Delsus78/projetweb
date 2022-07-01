@@ -8,7 +8,7 @@ router.post("/", projet.create);
 router.get("/", projet.findAll);
 
 //GET ALL tickets d'un projet
-router.get("/AllTickets/:id", projet.findAllTickets)
+router.get("/AllTickets/:id", projet.findAllTickets);
 
 //GET un projet en fonction de son id
 router.get("/:id", projet.findOne);
