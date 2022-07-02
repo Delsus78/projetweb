@@ -288,7 +288,8 @@ Utils.getAverageTimeSpendPerTicket = (info, result) => {
             result(err, null);
             return;
         }
-        resultatFinal.moyenne = data.totalDays * 7 / data.totalTickets;
+        if (data.totalTickets) resultatFinal.moyenne = data.totalDays * 7 / data.totalTickets;
+        else resultatFinal.moyenne = 0;
         console.log(resultatFinal);
         result(null, resultatFinal);
     });
