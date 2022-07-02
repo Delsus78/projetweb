@@ -58,6 +58,17 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Trouve tous les tickets d'un client
+exports.findAllTickets = (req, res) => {
+    Client.findAllTickets(req.params.id, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Une erreur est apparue lors de la recherche des tickets du client"
+            });
+        } else res.send(data);
+    });
+}
+
 //Met à jour un client à partir de son id
 exports.update = (req, res) => {
     if (!req.body) {

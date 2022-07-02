@@ -242,7 +242,7 @@ Utils.getAverageTicketsPerDay = (info, result) => {
                 totalDays: 0,
                 totalTickets: 0
             };
-
+            console.log(resulatFinal);
             result(null, resulatFinal);
             return;
         }
@@ -255,10 +255,22 @@ Utils.getAverageTicketsPerDay = (info, result) => {
         let date = new Date(firstDate);
         while (date <= new Date()) {
             let dayToAdd = new Date(date);
-            if (dayToAdd.getDay() !== 5 && dayToAdd.getDay() !== 6) {
-                days.push(dayToAdd.getFullYear() + "-" + (dayToAdd.getMonth() + 1) + "-" + dayToAdd.getDate());
+            if (dayToAdd.getUTCDay() !== 5 && dayToAdd.getUTCDay() !== 6) {
+                days.push(dayToAdd.getUTCFullYear() + "-" + (dayToAdd.getUTCMonth() + 1) + "-" + dayToAdd.getUTCDate());
             }
             date.setDate(date.getDate() + 1);
+        }
+
+        // div par 0
+        if (days.length === 0) {
+            let resulatFinal = {
+                moyenne: 0,
+                totalDays: 0,
+                totalTickets: 0
+            };
+            console.log(resulatFinal);
+            result(null, resulatFinal);
+            return;
         }
 
         let resulatFinal = {

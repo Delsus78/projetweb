@@ -54,6 +54,18 @@ Client.getAll = (contient, result) => {
     });
 };
 
+Client.findAllTickets = (id, result) => {
+    sql.query(`SELECT * FROM ticket WHERE idClient = '${id}'`, (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(null, err);
+            return;
+        }
+        console.log("Tickets : ", res);
+        result(null, res);
+    });
+}
+
 Client.updateById = (client, result) => {
     sql.query(
         "UPDATE client SET nom = ?, prenom = ?, entreprise = ?, email = ? WHERE id = ?",

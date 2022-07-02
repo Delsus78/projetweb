@@ -7,6 +7,10 @@ router.post("/", client.create);
 //GET ALL des clients
 router.get("/", client.findAll);
 
+//GET ALL tickets d'un client
+router.get("/AllTickets/:id", client.findAllTickets);
+
+
 //GET un client en fonction de son id
 router.get("/:id", client.findOne);
 
