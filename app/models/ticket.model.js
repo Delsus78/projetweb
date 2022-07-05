@@ -183,6 +183,33 @@ Ticket.updateById = (ticket, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
+
+            // adding noisettes to the dev ticket if it's on FINI
+            if (ticket.etatAvancement === "FINI" && ticket.idDev) {
+                let queryNoisettes = "UPDATE developpeur SET noisettes = noisettes + ? WHERE id = ?";
+                let nbNoisettes = 0;
+                switch (ticket.importance) {
+                    case "URGENT":
+                        nbNoisettes = 30;
+                        break;
+                    case "IMPORTANT":
+                        nbNoisettes = 15;
+                        break;
+                    case "MINEUR":
+                        nbNoisettes = 5;
+                        break;
+                }
+
+                sql.query(queryNoisettes, [nbNoisettes, ticket.idDev], (err, res) => {
+                    if (err) {
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
+                    }
+                    console.log("Noisettes added to dev : " + nbNoisettes);
+                });
+            }
+
             console.log("Updated ticket: ", { id: ticket.id, ...ticket });
             result(null, { id: ticket.id, ...ticket });
         });
