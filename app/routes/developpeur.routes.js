@@ -10,6 +10,9 @@ router.get("/", developpeur.findAll);
 //GET ALL tickets d'un developpeur
 router.get("/AllTickets/:id", developpeur.findAllTickets);
 
+//GET noisettes du developpeur
+router.get("/noisettes/:id", developpeur.getNoisettes);
+
 router.get("/TicketsDonePerProject/:id", developpeur.getTicketsDonePerProject);
 
 //GET un developpeur en fonction de son id

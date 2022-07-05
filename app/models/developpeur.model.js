@@ -89,6 +89,26 @@ Developpeur.getAllTickets = (id, result) => {
     });
 }
 
+Developpeur.getNoisettes = (id, result) => {
+    sql.query("SELECT noisettes FROM developpeur WHERE id = ?", id, (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("Noisettes developpeur : ", res[0]);
+            result(null, res[0]);
+            return;
+        }
+
+        console.log("Impossible de trouver le dev ", id);
+        result({ kind: "not_found" }, null);
+
+    });
+}
+
 Developpeur.getTicketsDonePerProject = (id, result) => {
     sql.query(`SELECT ticket.id, projet.nom, projet.id as projetId FROM ticket JOIN projet ON ticket.idProjet = projet.id WHERE idDev = ${id} AND ticket.etatAvancement = "fini"`, (err, res) => {
         if (err) {
