@@ -19,7 +19,7 @@ Projet.create = (newProjet, result) => {
 };
 
 Projet.findById = (id, result) => {
-    sql.query(`SELECT p.nom, p.id, t.importance FROM projet p JOIN ticket t on p.id = t.idProjet WHERE p.id = ?`, id, (err, res) => {
+    sql.query(`SELECT p.nom, p.id, t.importance FROM projet p LEFT JOIN ticket t on p.id = t.idProjet WHERE p.id = ?`, id, (err, res) => {
         if (err) {
             console.log("error : ", err);
             result(err, null);

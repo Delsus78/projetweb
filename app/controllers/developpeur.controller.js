@@ -54,6 +54,18 @@ exports.findAllTickets = (req, res) => {
     });
 };
 
+//renvoi les noisettes d'un developpeur donné
+exports.getNoisettes = (req, res) => {
+    const id = req.params.id;
+    Developpeur.getNoisettes(id, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Une erreur est apparue lors de la recherche des noisettes"
+            });
+        } else res.send(data);
+    });
+};
+
 exports.getTicketsDonePerProject = (req, res) => {
     const id = req.params.id;
     Developpeur.getTicketsDonePerProject(id, (err, data) => {

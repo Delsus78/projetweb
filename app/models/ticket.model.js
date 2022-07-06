@@ -29,17 +29,60 @@ Ticket.create = (newTicket, result) => {
 };
 
 Ticket.findById = (id, result) => {
-    sql.query(`SELECT * FROM ticket WHERE id = '${id}'`, (err, res) => {
+    let query = "SELECT d.nom NomDev, d.prenom PrenomDev, c.nom NomClient, c.prenom PrenomClient, p.nom NomProjet, r.Prenom PrenomRapporteur, r.Nom NomRapporteur, ticket.id, idClient, idDev, idRapporteur, ticket.nom, dateStart, etatAvancement, importance, description, idProjet, dateAssign, dateEnd FROM ticket LEFT JOIN developpeur d ON d.id = ticket.idDev LEFT JOIN client c on c.id = ticket.idClient LEFT JOIN rapporteur r on ticket.idRapporteur = r.id LEFT JOIN projet p on p.id = ticket.idProjet WHERE ticket.id = ?"
+
+    sql.query(query, id,(err, res) => {
         if (err) {
             console.log("error : ", err);
-            result(err, null);
+            result(null, err);
             return;
         }
         if (res.length) {
-            console.log("Found ticket : ", res[0]);
-            result(null, res[0]);
+
+            let objetFinal = {
+                id: res[0].id,
+                nom: res[0].nom,
+                developpeur: null,
+                client: null,
+                rapporteur: null,
+                projet: null,
+                dateStart: res[0].dateStart,
+                etatAvancement: res[0].etatAvancement,
+                importance: res[0].importance,
+                description: res[0].description,
+                dateAssign: res[0].dateAssign,
+                dateEnd: res[0].dateEnd
+            };
+
+            objetFinal.developpeur = {
+                nom: res[0].NomDev,
+                prenom: res[0].PrenomDev,
+                id: res[0].idDev
+            };
+
+            objetFinal.client = {
+                nom: res[0].NomClient,
+                prenom: res[0].PrenomClient,
+                id: res[0].idClient
+            };
+
+            objetFinal.rapporteur = {
+                nom: res[0].NomRapporteur,
+                prenom: res[0].PrenomRapporteur,
+                id: res[0].idRapporteur
+            };
+
+            objetFinal.projet = {
+                nom: res[0].NomProjet,
+                id: res[0].idProjet
+            };
+
+            console.log("Ticket : ", objetFinal);
+            result(null, objetFinal);
             return;
         }
+
+        console.log("Ticket not found with id : ", id);
         result({ kind: "not_found" }, null);
     });
 };
@@ -140,6 +183,33 @@ Ticket.updateById = (ticket, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
+
+            // adding noisettes to the dev ticket if it's on FINI
+            if (ticket.etatAvancement === "FINI" && ticket.idDev) {
+                let queryNoisettes = "UPDATE developpeur SET noisettes = noisettes + ? WHERE id = ?";
+                let nbNoisettes = 0;
+                switch (ticket.importance) {
+                    case "URGENT":
+                        nbNoisettes = 30;
+                        break;
+                    case "IMPORTANT":
+                        nbNoisettes = 15;
+                        break;
+                    case "MINEUR":
+                        nbNoisettes = 5;
+                        break;
+                }
+
+                sql.query(queryNoisettes, [nbNoisettes, ticket.idDev], (err, res) => {
+                    if (err) {
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
+                    }
+                    console.log("Noisettes added to dev : " + nbNoisettes);
+                });
+            }
+
             console.log("Updated ticket: ", { id: ticket.id, ...ticket });
             result(null, { id: ticket.id, ...ticket });
         });
